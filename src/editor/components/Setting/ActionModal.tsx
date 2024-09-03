@@ -1,4 +1,4 @@
-import { Modal, Segmented } from "antd";
+import { Modal } from "antd";
 import { useEffect, useState } from "react";
 import { GoToLink, GoToLinkConfig } from "./actions/GoToLink";
 import { ShowMessage, ShowMessageConfig } from "./actions/ShowMessage";
@@ -29,7 +29,7 @@ export function ActionModal(props: ActionModalProps) {
         componentMethod: '组件方法'
     }
 
-    const [key, setKey] = useState<string>('访问链接');
+    const [key, setKey] = useState<string>('自定义 JS');
     const [curConfig, setCurConfig] = useState<ActionConfig>();
 
     useEffect(() => {
@@ -48,7 +48,7 @@ export function ActionModal(props: ActionModalProps) {
         onCancel={handleCancel}
     >
         <div className="h-[500px]">
-            <Segmented value={key} onChange={setKey} block options={['访问链接', '消息提示', '组件方法', '自定义 JS']} />
+            {/* <Segmented value={key} onChange={setKey} block options={['访问链接', '消息提示', '组件方法', '自定义 JS']} /> */}
             {
                 key === '访问链接' && <GoToLink key="goToLink" value={action?.type === 'goToLink' ? action.url : ''} onChange={(config) => {
                     setCurConfig(config);

@@ -1,5 +1,5 @@
-import { Collapse, Input, Select, CollapseProps, Button} from 'antd';
-import { getComponentById, useComponetsStore } from '../../stores/components';
+import { Collapse, CollapseProps, Button} from 'antd';
+import { useComponetsStore } from '../../stores/components';
 import { useComponentConfigStore } from '../../stores/component-config';
 import type { ComponentEvent } from '../../stores/component-config';
 import { ActionConfig, ActionModal } from './ActionModal';
@@ -8,7 +8,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 export function ComponentEvent() {
 
-    const { curComponentId, components, curComponent, updateComponentProps } = useComponetsStore();
+    const { curComponent, updateComponentProps } = useComponetsStore();
     const { componentConfig } = useComponentConfigStore();
     const [actionModalOpen, setActionModalOpen] = useState(false);
     const [curEvent, setCurEvent] = useState<ComponentEvent>();
@@ -58,7 +58,7 @@ export function ComponentEvent() {
                 {
                     (curComponent.props[event.name]?.actions || []).map((item: ActionConfig, index: number) => {
                         return <div>
-                            {
+                            {/* {
                                 item.type === 'goToLink' ? <div key="goToLink" className='border border-[#aaa] m-[10px] p-[10px] relative'>
                                     <div className='text-[blue]'>跳转链接</div>
                                     <div>{item.url}</div>
@@ -69,8 +69,8 @@ export function ComponentEvent() {
                                         onClick={() => deleteAction(event, index)}
                                     ><DeleteOutlined /></div>
                                 </div> : null
-                            }
-                            {
+                            } */}
+                            {/* {
                                 item.type === 'showMessage' ? <div key="showMessage" className='border border-[#aaa] m-[10px] p-[10px] relative'>
                                     <div className='text-[blue]'>消息弹窗</div>
                                     <div>{item.config.type}</div>
@@ -82,7 +82,7 @@ export function ComponentEvent() {
                                         onClick={() => deleteAction(event, index)}
                                     ><DeleteOutlined /></div>
                                 </div> : null
-                            }
+                            } */}
                             {
                                 item.type === 'customJS' ? <div key="customJS" className='border border-[#aaa] m-[10px] p-[10px] relative'>
                                     <div className='text-[blue]'>自定义 JS</div>
@@ -94,7 +94,7 @@ export function ComponentEvent() {
                                     ><DeleteOutlined /></div>
                                 </div> : null
                             }
-                            {
+                            {/* {
                                 item.type === 'componentMethod' ? <div key="componentMethod" className='border border-[#aaa] m-[10px] p-[10px] relative'>
                                     <div className='text-[blue]'>组件方法</div>
                                     <div>{getComponentById(item.config.componentId, components)?.desc}</div>
@@ -107,7 +107,7 @@ export function ComponentEvent() {
                                         onClick={() => deleteAction(event, index)}
                                     ><DeleteOutlined /></div>
                                 </div> : null
-                            }
+                            } */}
                         </div>
                     })
                 }
