@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Component, getComponentById, useComponetsStore } from "../../../stores/components";
+import { Component, getComponentById, useComponentsStore } from "../../../stores/components";
 import { Select, TreeSelect } from "antd";
 import { useComponentConfigStore } from "../../../stores/component-config";
 
@@ -19,7 +19,7 @@ export interface ComponentMethodProps {
 export function ComponentMethod(props: ComponentMethodProps) {
 
     const { value, onChange} = props;
-    const { components, curComponentId } = useComponetsStore();
+    const { components, curComponentId } = useComponentsStore();
     const { componentConfig } = useComponentConfigStore();
     const [selectedComponent, setSelectedComponent] = useState<Component | null>();
 

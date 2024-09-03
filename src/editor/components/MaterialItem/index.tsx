@@ -24,7 +24,7 @@ export function MaterialItem(props: MaterialItemProps) {
         className='
             border-dashed
             border-[1px]
-            border-[#000]
+            border-[#593196]
             py-[8px] px-[10px] 
             m-[10px]
             cursor-move

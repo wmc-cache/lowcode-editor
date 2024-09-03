@@ -1,5 +1,5 @@
 import { Collapse, CollapseProps, Button} from 'antd';
-import { useComponetsStore } from '../../stores/components';
+import { useComponentsStore } from '../../stores/components';
 import { useComponentConfigStore } from '../../stores/component-config';
 import type { ComponentEvent } from '../../stores/component-config';
 import { ActionConfig, ActionModal } from './ActionModal';
@@ -8,7 +8,7 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 export function ComponentEvent() {
 
-    const { curComponent, updateComponentProps } = useComponetsStore();
+    const { curComponent, updateComponentProps } = useComponentsStore();
     const { componentConfig } = useComponentConfigStore();
     const [actionModalOpen, setActionModalOpen] = useState(false);
     const [curEvent, setCurEvent] = useState<ComponentEvent>();

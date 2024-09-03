@@ -1,13 +1,13 @@
 import { Segmented } from 'antd';
 import { useState } from 'react';
-import { useComponetsStore } from '../../stores/components';
+import { useComponentsStore } from '../../stores/components';
 import { ComponentAttr } from './ComponentAttr';
 import { ComponentEvent } from './ComponentEvent';
 import { ComponentStyle } from './ComponentStyle';
 
 export function Setting() {
 
-    const { curComponentId } = useComponetsStore();
+    const { curComponentId } = useComponentsStore();
 
     const [key, setKey] = useState<string>('属性');
 

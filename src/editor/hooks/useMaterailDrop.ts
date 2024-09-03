@@ -1,6 +1,6 @@
 import { useDrop } from "react-dnd";
 import { useComponentConfigStore } from "../stores/component-config";
-import { getComponentById, useComponetsStore } from "../stores/components";
+import { getComponentById, useComponentsStore } from "../stores/components";
 
 export interface ItemType {
   type: string;
@@ -9,7 +9,7 @@ export interface ItemType {
 }
 
 export function useMaterailDrop(accept: string[], id: number) {
-    const { addComponent, deleteComponent, components } = useComponetsStore();
+    const { addComponent, deleteComponent, components } = useComponentsStore();
     const { componentConfig } = useComponentConfigStore();
 
     const [{ canDrop }, drop] = useDrop(() => ({

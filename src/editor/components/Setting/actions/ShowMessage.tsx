@@ -1,5 +1,5 @@
 import { Input, Select } from "antd"
-import { useComponetsStore } from "../../../stores/components";
+import { useComponentsStore } from "../../../stores/components";
 import { useEffect, useState } from "react";
 
 export interface ShowMessageConfig {
@@ -19,7 +19,7 @@ export interface ShowMessageProps {
 export function ShowMessage(props: ShowMessageProps) {
     const { value: val, defaultValue, onChange } = props;
 
-    const { curComponentId } = useComponetsStore();
+    const { curComponentId } = useComponentsStore();
 
     const [type, setType] = useState<'success' | 'error'>(defaultValue?.type || 'success');
     const [text, setText] = useState<string>(defaultValue?.text || '');

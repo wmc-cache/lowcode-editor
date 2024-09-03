@@ -1,7 +1,7 @@
 import { Form, Input, InputNumber, Select } from 'antd';
 import { CSSProperties, useEffect, useState } from 'react';
 import { ComponentSetter, useComponentConfigStore } from '../../stores/component-config';
-import { useComponetsStore } from '../../stores/components';
+import { useComponentsStore } from '../../stores/components';
 import CssEditor from './CssEditor';
 import { debounce } from 'lodash-es';
 import styleToObject from 'style-to-object';
@@ -10,7 +10,7 @@ export function ComponentStyle() {
 
   const [form] = Form.useForm();
 
-  const { curComponentId, curComponent, updateComponentStyles } = useComponetsStore();
+  const { curComponentId, curComponent, updateComponentStyles } = useComponentsStore();
   const { componentConfig } = useComponentConfigStore();
   const [css, setCss] = useState<string>(`.comp{\n\n}`);
 

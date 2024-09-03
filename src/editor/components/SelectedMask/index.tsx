@@ -4,7 +4,7 @@ import {
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
-import { getComponentById, useComponetsStore } from '../../stores/components';
+import { getComponentById, useComponentsStore } from '../../stores/components';
 import { Dropdown, Popconfirm, Space } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
@@ -25,7 +25,7 @@ function SelectedMask({ containerClassName, portalWrapperClassName, componentId 
     labelLeft: 0,
   });
 
-  const { components, curComponentId, curComponent, deleteComponent, setCurComponentId } = useComponetsStore();
+  const { components, curComponentId, curComponent, deleteComponent, setCurComponentId } = useComponentsStore();
 
   useEffect(() => {
     updatePosition();

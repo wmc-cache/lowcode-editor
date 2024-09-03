@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import { useComponentConfigStore } from "../../stores/component-config";
-import { Component, useComponetsStore } from "../../stores/components"
+import { Component, useComponentsStore } from "../../stores/components"
 import { message } from "antd";
 import { ActionConfig } from "../Setting/ActionModal";
 
 export function Preview() {
-    const { components } = useComponetsStore();
+    const { components } = useComponentsStore();
     const { componentConfig } = useComponentConfigStore();
 
     const componentRefs = useRef<Record<string, any>>({});

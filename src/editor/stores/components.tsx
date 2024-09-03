@@ -110,7 +110,7 @@ const creator: StateCreator<State & Action> = (set, get) => ({
       })   
 });
 
-export const useComponetsStore = create<State & Action>()(persist(creator, {
+export const useComponentsStore = create<State & Action>()(persist(creator, {
   name: 'xxx'
 }));
 

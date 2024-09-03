@@ -1,13 +1,13 @@
 import { Form, Input, Select } from 'antd';
 import { useEffect } from 'react';
 import { ComponentConfig, ComponentSetter, useComponentConfigStore } from '../../stores/component-config';
-import { useComponetsStore } from '../../stores/components';
+import { useComponentsStore } from '../../stores/components';
 
 export function ComponentAttr() {
 
   const [form] = Form.useForm();
 
-  const { curComponentId, curComponent, updateComponentProps } = useComponetsStore();
+  const { curComponentId, curComponent, updateComponentProps } = useComponentsStore();
   const { componentConfig } = useComponentConfigStore();
 
   useEffect(() => {

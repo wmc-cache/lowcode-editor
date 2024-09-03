@@ -1,9 +1,9 @@
 import { Button, Space } from 'antd';
-import { useComponetsStore } from '../../stores/components';
+import { useComponentsStore } from '../../stores/components';
 
 export function Header() {
 
-  const { mode, setMode, setCurComponentId } = useComponetsStore();
+  const { mode, setMode, setCurComponentId } = useComponentsStore();
 
   return (
     <div className='w-[100%] h-[100%]'>
