@@ -8,7 +8,7 @@ import { getComponentById, useComponentsStore } from '../../stores/components';
 
 interface HoverMaskProps {
   portalWrapperClassName: string;
-  containerClassName: string
+  containerClassName: string;
   componentId: number;
 }
 
@@ -23,15 +23,18 @@ function HoverMask({ containerClassName, portalWrapperClassName, componentId }: 
     labelLeft: 0,
   });
 
+  const [el, setEl] = useState<HTMLElement | null>(null); // 用于存储目标 DOM 元素
   const { components } = useComponentsStore();
 
   useEffect(() => {
-    updatePosition();
-  }, [componentId]);
+    // 安全获取目标 DOM 元素
+    const portalElement = document.querySelector(`.${portalWrapperClassName}`);
+    setEl(portalElement);
+  }, [portalWrapperClassName]);
 
   useEffect(() => {
     updatePosition();
-  }, [components]);
+  }, [componentId, components]);
 
   function updatePosition() {
     if (!componentId) return;
@@ -51,7 +54,7 @@ function HoverMask({ containerClassName, portalWrapperClassName, componentId }: 
     if (labelTop <= 0) {
       labelTop -= -20;
     }
-  
+
     setPosition({
       top: top - containerTop + container.scrollTop,
       left: left - containerLeft + container.scrollTop,
@@ -62,15 +65,14 @@ function HoverMask({ containerClassName, portalWrapperClassName, componentId }: 
     });
   }
 
-  const el = useMemo(() => {
-      return document.querySelector(`.${portalWrapperClassName}`)!
-  }, []);
-
   const curComponent = useMemo(() => {
     return getComponentById(componentId, components);
-  }, [componentId]);
+  }, [componentId, components]);
 
-  return createPortal((
+  // 如果 el 为 null，暂时不渲染遮罩层
+  if (!el) return null;
+
+  return createPortal(
     <>
       <div
         style={{
@@ -88,31 +90,32 @@ function HoverMask({ containerClassName, portalWrapperClassName, componentId }: 
         }}
       />
       <div
+        style={{
+          position: "absolute",
+          left: position.labelLeft,
+          top: position.labelTop,
+          fontSize: "14px",
+          zIndex: 13,
+          display: (!position.width || position.width < 10) ? "none" : "inline",
+          transform: 'translate(-100%, -100%)',
+        }}
+      >
+        <div
           style={{
-            position: "absolute",
-            left: position.labelLeft,
-            top: position.labelTop,
-            fontSize: "14px",
-            zIndex: 13,
-            display: (!position.width || position.width < 10) ? "none" : "inline",
-            transform: 'translate(-100%, -100%)',
+            padding: '0 8px',
+            backgroundColor: 'blue',
+            borderRadius: 4,
+            color: '#fff',
+            cursor: "pointer",
+            whiteSpace: 'nowrap',
           }}
         >
-          <div
-            style={{
-              padding: '0 8px',
-              backgroundColor: 'blue',
-              borderRadius: 4,
-              color: '#fff',
-              cursor: "pointer",
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {curComponent?.desc}
-          </div>
+          {curComponent?.desc}
         </div>
-    </>
-  ), el)
+      </div>
+    </>,
+    el
+  );
 }
 
 export default HoverMask;

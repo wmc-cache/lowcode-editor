@@ -1,4 +1,5 @@
 import {
+  SetStateAction,
   useEffect,
   useMemo,
   useState,
@@ -9,8 +10,8 @@ import { Dropdown, Popconfirm, Space } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 
 interface SelectedMaskProps {
-  portalWrapperClassName: string
-  containerClassName: string
+  portalWrapperClassName: string;
+  containerClassName: string;
   componentId: number;
 }
 
@@ -25,64 +26,60 @@ function SelectedMask({ containerClassName, portalWrapperClassName, componentId 
     labelLeft: 0,
   });
 
+  const [el, setEl] = useState<HTMLElement | null>(null); // 用于存储目标 DOM 元素
   const { components, curComponentId, curComponent, deleteComponent, setCurComponentId } = useComponentsStore();
 
   useEffect(() => {
-    updatePosition();
-  }, [componentId]);
+    // 安全获取目标 DOM 元素
+    const portalElement = document.querySelector(`.${portalWrapperClassName}`);
+    setEl(portalElement as SetStateAction<HTMLElement | null>);
+  }, [portalWrapperClassName]);
 
   useEffect(() => {
-    setTimeout(() => {
-      updatePosition();
-    }, 200);
-  }, [components]);
+    const updatePosition = () => {
+      if (!componentId) return;
 
-  useEffect(() => {
-    const resizeHandler = () => {
-      updatePosition();
-    }
-    window.addEventListener('resize', resizeHandler)
+      const container = document.querySelector(`.${containerClassName}`);
+      if (!container) return;
+
+      const node = document.querySelector(`[data-component-id="${componentId}"]`);
+      if (!node) return;
+
+      const { top, left, width, height } = node.getBoundingClientRect();
+      const { top: containerTop, left: containerLeft } = container.getBoundingClientRect();
+
+      let labelTop = top - containerTop + container.scrollTop;
+      let labelLeft = left - containerLeft + width;
+
+      if (labelTop <= 0) {
+        labelTop -= -20;
+      }
+
+      setPosition({
+        top: top - containerTop + container.scrollTop,
+        left: left - containerLeft + container.scrollTop,
+        width,
+        height,
+        labelTop,
+        labelLeft,
+      });
+    };
+
+    // 延迟调用以确保 DOM 元素已渲染
+    const timeoutId = setTimeout(updatePosition, 100);
+    const resizeHandler = () => updatePosition();
+
+    // 监听窗口大小变化
+    window.addEventListener('resize', resizeHandler);
     return () => {
-      window.removeEventListener('resize', resizeHandler)
-    }
-  }, []);
-
-  function updatePosition() {
-    if (!componentId) return;
-
-    const container = document.querySelector(`.${containerClassName}`);
-    if (!container) return;
-
-    const node = document.querySelector(`[data-component-id="${componentId}"]`);
-    if (!node) return;
-
-    const { top, left, width, height } = node.getBoundingClientRect();
-    const { top: containerTop, left: containerLeft } = container.getBoundingClientRect();
-
-    let labelTop = top - containerTop + container.scrollTop;
-    let labelLeft = left - containerLeft + width;
-
-    if (labelTop <= 0) {
-      labelTop -= -20;
-    }
-  
-    setPosition({
-      top: top - containerTop + container.scrollTop,
-      left: left - containerLeft + container.scrollTop,
-      width,
-      height,
-      labelTop,
-      labelLeft,
-    });
-  }
-
-  const el = useMemo(() => {
-      return document.querySelector(`.${portalWrapperClassName}`)!
-  }, []);
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', resizeHandler);
+    };
+  }, [componentId, components, containerClassName]);
 
   const curSelectedComponent = useMemo(() => {
     return getComponentById(componentId, components);
-  }, [componentId]);
+  }, [componentId, components]);
 
   function handleDelete() {
     deleteComponent(curComponentId!);
@@ -99,10 +96,11 @@ function SelectedMask({ containerClassName, portalWrapperClassName, componentId 
     }
 
     return parentComponents;
-
   }, [curComponent]);
 
-  return createPortal((
+  if (!el) return null;
+
+  return createPortal(
     <>
       <div
         style={{
@@ -120,58 +118,59 @@ function SelectedMask({ containerClassName, portalWrapperClassName, componentId 
         }}
       />
       <div
-          style={{
-            position: "absolute",
-            left: position.labelLeft,
-            top: position.labelTop,
-            fontSize: "14px",
-            zIndex: 13,
-            display: (!position.width || position.width < 10) ? "none" : "inline",
-            transform: 'translate(-100%, -100%)',
-          }}
-        >
-          <Space>
-            <Dropdown
-              menu={{
-                items: parentComponents.map(item => ({
-                  key: item.id,
-                  label: item.desc,
-                })),
-                onClick: ({ key }) => {
-                  setCurComponentId(+key);
-                }
+        style={{
+          position: "absolute",
+          left: position.labelLeft,
+          top: position.labelTop,
+          fontSize: "14px",
+          zIndex: 13,
+          display: (!position.width || position.width < 10) ? "none" : "inline",
+          transform: 'translate(-100%, -100%)',
+        }}
+      >
+        <Space>
+          <Dropdown
+            menu={{
+              items: parentComponents.map(item => ({
+                key: item.id,
+                label: item.desc,
+              })),
+              onClick: ({ key }) => {
+                setCurComponentId(+key);
+              }
+            }}
+            disabled={parentComponents.length === 0}
+          >
+            <div
+              style={{
+                padding: '0 8px',
+                backgroundColor: 'blue',
+                borderRadius: 4,
+                color: '#fff',
+                cursor: "pointer",
+                whiteSpace: 'nowrap',
               }}
-              disabled={parentComponents.length === 0}
             >
-              <div
-                style={{
-                  padding: '0 8px',
-                  backgroundColor: 'blue',
-                  borderRadius: 4,
-                  color: '#fff',
-                  cursor: "pointer",
-                  whiteSpace: 'nowrap',
-                }}
+              {curSelectedComponent?.desc}
+            </div>
+          </Dropdown>
+          {curComponentId !== 1 && (
+            <div style={{ padding: '0 8px', backgroundColor: 'blue' }}>
+              <Popconfirm
+                title="确认删除？"
+                okText={'确认'}
+                cancelText={'取消'}
+                onConfirm={handleDelete}
               >
-                {curSelectedComponent?.desc}
-              </div>
-            </Dropdown>
-            {curComponentId !== 1 && (
-              <div style={{ padding: '0 8px', backgroundColor: 'blue' }}>
-                <Popconfirm
-                  title="确认删除？"
-                  okText={'确认'}
-                  cancelText={'取消'}
-                  onConfirm={handleDelete}
-                >
-                  <DeleteOutlined style={{ color: '#fff' }}/>
-                </Popconfirm>
-              </div>
-            )}
-          </Space>
-        </div>
-    </>
-  ), el)
+                <DeleteOutlined style={{ color: '#fff' }} />
+              </Popconfirm>
+            </div>
+          )}
+        </Space>
+      </div>
+    </>,
+    el
+  );
 }
 
 export default SelectedMask;
