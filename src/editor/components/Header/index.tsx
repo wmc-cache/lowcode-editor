@@ -13,8 +13,8 @@ export function Header() {
           {mode === 'edit' && (
             <Button
                 onClick={() => {
-                    setMode('preview');
-                    setCurComponentId(null);
+                setCurComponentId(null)
+                window.open('/preview')
                 }}
                 type='primary'
             >
