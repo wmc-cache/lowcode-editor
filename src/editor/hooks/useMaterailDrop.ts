@@ -11,7 +11,7 @@ export interface ItemType {
 export function useMaterailDrop(accept: string[], id: number) {
     const { addComponent, deleteComponent, components } = useComponentsStore();
     const { componentConfig } = useComponentConfigStore();
-
+    // 使用 useDrop 钩子来创建放置目标
     const [{ canDrop }, drop] = useDrop(() => ({
         accept,
         drop: (item: ItemType, monitor) => {
@@ -23,6 +23,8 @@ export function useMaterailDrop(accept: string[], id: number) {
             if(item.dragType === 'move') {
               const component = getComponentById(item.id, components)!;
 
+
+              // 先删除旧组件，再添加到新位置
               deleteComponent(item.id);
 
               addComponent(component, id)

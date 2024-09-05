@@ -1,4 +1,5 @@
 import {
+  SetStateAction,
   useEffect,
   useMemo,
   useState,
@@ -29,7 +30,7 @@ function HoverMask({ containerClassName, portalWrapperClassName, componentId }: 
   useEffect(() => {
     // 安全获取目标 DOM 元素
     const portalElement = document.querySelector(`.${portalWrapperClassName}`);
-    setEl(portalElement);
+    setEl(portalElement as SetStateAction<HTMLElement | null>);
   }, [portalWrapperClassName]);
 
   useEffect(() => {

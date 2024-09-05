@@ -11,7 +11,9 @@ export function MaterialItem(props: MaterialItemProps) {
         name,
         desc
     } = props;
-
+    
+    // 使用 useDrag 钩子来创建一个拖动源
+    
     const [_, drag] = useDrag({
         type: name,
         item: {

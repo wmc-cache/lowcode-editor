@@ -65,6 +65,9 @@ export function EditArea() {
         setHoverComponentId(undefined);
     }} onClick={handleClick}>
         {renderComponents(components)}
+
+
+
         {hoverComponentId && hoverComponentId !== curComponentId && (
             <HoverMask
                 portalWrapperClassName='portal-wrapper'
@@ -72,6 +75,9 @@ export function EditArea() {
                 componentId={hoverComponentId}
             />
         )}
+
+
+
         {curComponentId && (
             <SelectedMask
                 portalWrapperClassName='portal-wrapper'
@@ -79,6 +85,8 @@ export function EditArea() {
                 componentId={curComponentId}
             />
         )}
+
+        
         <div className="portal-wrapper"></div>
     </div>
 }
