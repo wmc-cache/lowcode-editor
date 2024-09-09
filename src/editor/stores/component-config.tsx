@@ -1,4 +1,4 @@
-import {create} from 'zustand';
+import { create } from 'zustand';
 import ContainerDev from '../materials/Container/dev';
 import ContainerProd from '../materials/Container/prod';
 import ButtonDev from '../materials/Button/dev';
@@ -15,6 +15,8 @@ import FormDev from '../materials/Form/dev';
 import FormProd from '../materials/Form/prod';
 import FormItemDev from '../materials/FormItem/dev';
 import FormItemProd from '../materials/FormItem/prod';
+import InputDev from '../materials/Input/dev';
+import InputProd from '../materials/Input/prod';
 
 export interface ComponentSetter {
     name: string;
@@ -46,7 +48,7 @@ export interface ComponentConfig {
 }
 
 interface State {
-    componentConfig: {[key: string]: ComponentConfig};
+    componentConfig: { [key: string]: ComponentConfig };
 }
 
 interface Action {
@@ -70,18 +72,18 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
             },
             setter: [
                 {
-                  name: 'type',
-                  label: '按钮类型',
-                  type: 'select',
-                  options: [
-                    {label: '主按钮', value: 'primary'},
-                    {label: '次按钮', value: 'default'},
-                  ],
+                    name: 'type',
+                    label: '按钮类型',
+                    type: 'select',
+                    options: [
+                        { label: '主按钮', value: 'primary' },
+                        { label: '次按钮', value: 'default' },
+                    ],
                 },
                 {
-                  name: 'text',
-                  label: '文本',
-                  type: 'input',
+                    name: 'text',
+                    label: '文本',
+                    type: 'input',
                 },
             ],
             stylesSetter: [
@@ -117,9 +119,9 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
             },
             setter: [
                 {
-                  name: 'title',
-                  label: '标题',
-                  type: 'input'
+                    name: 'title',
+                    label: '标题',
+                    type: 'input'
                 }
             ],
             stylesSetter: [],
@@ -160,9 +162,9 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
             desc: '表格',
             setter: [
                 {
-                  name: 'url',
-                  label: 'url',
-                  type: 'input',
+                    name: 'url',
+                    label: 'url',
+                    type: 'input',
                 },
             ],
             dev: TableDev,
@@ -172,36 +174,36 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
             name: 'TableColumn',
             desc: '表格列',
             defaultProps: {
-                dataIndex:`col_${new Date().getTime()}`,
+                dataIndex: `col_${new Date().getTime()}`,
                 title: '列名'
             },
             setter: [
                 {
-                  name: 'type',
-                  label: '类型',
-                  type: 'select',
-                  options: [
-                    {
-                      label: '文本',
-                      value: 'text',
-                    },
-                    {
-                      label: '日期',
-                      value: 'date',
-                    },
-                  ],
+                    name: 'type',
+                    label: '类型',
+                    type: 'select',
+                    options: [
+                        {
+                            label: '文本',
+                            value: 'text',
+                        },
+                        {
+                            label: '日期',
+                            value: 'date',
+                        },
+                    ],
                 },
                 {
-                  name: 'title',
-                  label: '标题',
-                  type: 'input',
+                    name: 'title',
+                    label: '标题',
+                    type: 'input',
                 },
                 {
-                  name: 'dataIndex',
-                  label: '字段',
-                  type: 'input',
+                    name: 'dataIndex',
+                    label: '字段',
+                    type: 'input',
                 },
-              ],
+            ],
             dev: TableColumnDev,
             prod: TableColumnProd,
         },
@@ -241,43 +243,53 @@ export const useComponentConfigStore = create<State & Action>((set) => ({
             dev: FormItemDev,
             prod: FormItemProd,
             setter: [
-              {
-                name: 'type',
-                label: '类型',
-                type: 'select',
-                options: [
-                  {
-                    label: '文本',
-                    value: 'input',
-                  },
-                  {
-                    label: '日期',
-                    value: 'date',
-                  },
-                ],
-              },
-              {
-                name: 'label',
-                label: '标题',
-                type: 'input',
-              },
-              {
-                name: 'name',
-                label: '字段',
-                type: 'input',
-              },
-              {
-                name: 'rules',
-                label: '校验',
-                type: 'select',
-                options: [
-                  {
-                    label: '必填',
-                    value: 'required',
-                  },
-                ],
-              }
+                {
+                    name: 'type',
+                    label: '类型',
+                    type: 'select',
+                    options: [
+                        {
+                            label: '文本',
+                            value: 'input',
+                        },
+                        {
+                            label: '日期',
+                            value: 'date',
+                        },
+                    ],
+                },
+                {
+                    name: 'label',
+                    label: '标题',
+                    type: 'input',
+                },
+                {
+                    name: 'name',
+                    label: '字段',
+                    type: 'input',
+                },
+                {
+                    name: 'rules',
+                    label: '校验',
+                    type: 'select',
+                    options: [
+                        {
+                            label: '必填',
+                            value: 'required',
+                        },
+                    ],
+                }
             ]
+        },
+        Input: {
+            name: 'Input',
+            desc: '输入框',
+            defaultProps: {
+                type: 'primary',
+                value: ''
+            },
+            dev: InputDev,
+            prod: InputProd
         }
     },
     registerComponent: (name, componentConfig) => set((state) => {

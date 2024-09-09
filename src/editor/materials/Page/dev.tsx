@@ -5,7 +5,7 @@ function Page({ id, children, styles }: CommonComponentProps) {
 
     console.log("id, children, styles", id, children, styles)
 
-    const {canDrop, drop } = useMaterailDrop(['Button', 'Container', 'Modal', 'Table', 'Form'], id);
+    const { canDrop, drop } = useMaterailDrop(['Button', 'Container', 'Modal', 'Table', 'Form', 'Input'], id);
 
     return (
         <div
